@@ -17,9 +17,12 @@ import de.eaglefamily.minecraft.spleef.listener.PlayerJoinListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerMoveListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerQuitListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerRespawnListener;
+import de.eaglefamily.minecraft.spleef.map.SpawnpointPool;
 import java.util.List;
+import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -47,11 +50,14 @@ public class SpleefPlugin extends JavaPlugin implements Module {
 
     registerListeners();
     registerCommands();
+
+    Bukkit.getOnlinePlayers().forEach(this::loadPlayer);
   }
 
   @Override
   public void onDisable() {
     injector.getInstance(BlockBreakListener.class).restoreBlocks();
+    Bukkit.getOnlinePlayers().forEach(this::unloadPlayer);
   }
 
   private void registerListeners() {
@@ -66,5 +72,16 @@ public class SpleefPlugin extends JavaPlugin implements Module {
   private void registerCommands() {
     PluginCommand spleefPluginCommand = checkNotNull(getCommand("spleef"));
     spleefPluginCommand.setExecutor(injector.getInstance(SpleefCommand.class));
+  }
+
+  private void loadPlayer(Player player) {
+    SpleefPlayer spleefPlayer = injector.getInstance(SpleefPlayerPool.class).addPlayer(player);
+    spleefPlayer.resetState();
+    spleefPlayer.setupInventory();
+    player.teleport(injector.getInstance(SpawnpointPool.class).getRandomSpawnpoint());
+  }
+
+  private void unloadPlayer(Player player) {
+    SpleefPlayer spleefPlayer = injector.getInstance(SpleefPlayerPool.class).removePlayer(player);
   }
 }
