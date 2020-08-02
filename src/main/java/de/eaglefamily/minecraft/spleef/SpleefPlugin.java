@@ -7,6 +7,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import de.eaglefamily.minecraft.spleef.command.SpleefCommand;
+import de.eaglefamily.minecraft.spleef.command.StatsCommand;
 import de.eaglefamily.minecraft.spleef.i18n.I18nModule;
 import de.eaglefamily.minecraft.spleef.listener.BlockBreakListener;
 import de.eaglefamily.minecraft.spleef.listener.EntityDamageListener;
@@ -76,6 +77,9 @@ public class SpleefPlugin extends JavaPlugin implements Module {
   private void registerCommands() {
     PluginCommand spleefPluginCommand = checkNotNull(getCommand("spleef"));
     spleefPluginCommand.setExecutor(injector.getInstance(SpleefCommand.class));
+
+    PluginCommand statsPluginCommand = checkNotNull(getCommand("stats"));
+    statsPluginCommand.setExecutor(injector.getInstance(StatsCommand.class));
   }
 
   private void loadPlayer(Player player) {
