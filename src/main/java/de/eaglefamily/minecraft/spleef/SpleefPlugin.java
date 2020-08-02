@@ -9,6 +9,7 @@ import com.google.inject.Module;
 import de.eaglefamily.minecraft.spleef.command.SpleefCommand;
 import de.eaglefamily.minecraft.spleef.listener.PlayerJoinListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerQuitListener;
+import de.eaglefamily.minecraft.spleef.listener.PlayerRespawnListener;
 import java.util.List;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.Configuration;
@@ -20,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SpleefPlugin extends JavaPlugin implements Module {
 
   private final List<Class<? extends Listener>> listeners = List.of(PlayerJoinListener.class,
-      PlayerQuitListener.class);
+      PlayerQuitListener.class, PlayerRespawnListener.class);
 
   private Injector injector;
 
