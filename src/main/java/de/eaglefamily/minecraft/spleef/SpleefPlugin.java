@@ -14,6 +14,7 @@ import de.eaglefamily.minecraft.spleef.listener.FoodLevelChangeListener;
 import de.eaglefamily.minecraft.spleef.listener.InventoryListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerDeathListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerJoinListener;
+import de.eaglefamily.minecraft.spleef.listener.PlayerMoveListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerQuitListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerRespawnListener;
 import java.util.List;
@@ -29,7 +30,7 @@ public class SpleefPlugin extends JavaPlugin implements Module {
   private final List<Class<? extends Listener>> listeners = List.of(PlayerJoinListener.class,
       PlayerQuitListener.class, PlayerRespawnListener.class, BlockBreakListener.class,
       PlayerDeathListener.class, InventoryListener.class, EntityDamageListener.class,
-      FoodLevelChangeListener.class);
+      FoodLevelChangeListener.class, PlayerMoveListener.class);
 
   private Injector injector;
 

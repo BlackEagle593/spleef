@@ -7,15 +7,18 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Map;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 @Singleton
 public class SpleefPlayerPool {
 
+  private final Plugin plugin;
   private final SpleefItemFactory spleefItemFactory;
   private final Map<Player, SpleefPlayer> spleefPlayerMap = Maps.newConcurrentMap();
 
   @Inject
-  public SpleefPlayerPool(SpleefItemFactory spleefItemFactory) {
+  public SpleefPlayerPool(Plugin plugin, SpleefItemFactory spleefItemFactory) {
+    this.plugin = plugin;
     this.spleefItemFactory = spleefItemFactory;
   }
 
@@ -25,7 +28,7 @@ public class SpleefPlayerPool {
 
   public SpleefPlayer addPlayer(Player player) {
     checkNotNull(player);
-    SpleefPlayer spleefPlayer = SpleefPlayer.create(player, spleefItemFactory);
+    SpleefPlayer spleefPlayer = SpleefPlayer.create(player, plugin, spleefItemFactory);
     spleefPlayerMap.put(player, spleefPlayer);
     return spleefPlayer;
   }

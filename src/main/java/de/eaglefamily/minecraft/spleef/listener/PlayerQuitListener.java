@@ -24,7 +24,14 @@ public class PlayerQuitListener implements Listener {
   public void onPlayerQuit(PlayerQuitEvent event) {
     Player player = event.getPlayer();
     event.setQuitMessage("");
+
+    // Kill player on combat log
+    if (player.hasMetadata(SpleefPlayer.SPLEEFED_METAKEY)) {
+      player.setHealth(0);
+    }
+
     SpleefPlayer spleefPlayer = spleefPlayerPool.removePlayer(player);
+
     translator.broadcastMessage("playerquit", player.getName());
   }
 }
