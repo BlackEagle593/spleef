@@ -24,6 +24,8 @@ dependencies {
   implementation("com.google.guava:guava:29.0-jre")
   implementation("com.google.inject:guice:4.2.3")
   implementation("io.reactivex.rxjava3:rxjava:3.0.4")
+  implementation("com.datastax.oss:java-driver-core:4.8.0")
+  implementation("com.datastax.oss:java-driver-query-builder:4.8.0")
   compileOnly("com.destroystokyo.paper:paper-api:1.16.1-R0.1-SNAPSHOT")
 }
 
