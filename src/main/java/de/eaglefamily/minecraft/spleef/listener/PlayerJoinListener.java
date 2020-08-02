@@ -1,7 +1,9 @@
 package de.eaglefamily.minecraft.spleef.listener;
 
+import com.google.inject.Inject;
 import de.eaglefamily.minecraft.spleef.SpleefPlayer;
 import de.eaglefamily.minecraft.spleef.SpleefPlayerPool;
+import de.eaglefamily.minecraft.spleef.i18n.Translator;
 import de.eaglefamily.minecraft.spleef.map.SpawnpointPool;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,10 +12,14 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinListener implements Listener {
 
+  private final Translator translator;
   private final SpleefPlayerPool spleefPlayerPool;
   private final SpawnpointPool spawnpointPool;
 
-  public PlayerJoinListener(SpleefPlayerPool spleefPlayerPool, SpawnpointPool spawnpointPool) {
+  @Inject
+  public PlayerJoinListener(Translator translator, SpleefPlayerPool spleefPlayerPool,
+      SpawnpointPool spawnpointPool) {
+    this.translator = translator;
     this.spleefPlayerPool = spleefPlayerPool;
     this.spawnpointPool = spawnpointPool;
   }
@@ -26,5 +32,6 @@ public class PlayerJoinListener implements Listener {
     spleefPlayer.resetState();
     spleefPlayer.setupInventory();
     player.teleport(spawnpointPool.getRandomSpawnpoint());
+    translator.broadcastMessage("playerjoin", player.getName());
   }
 }

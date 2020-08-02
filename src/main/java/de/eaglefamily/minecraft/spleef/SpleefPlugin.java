@@ -7,6 +7,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import de.eaglefamily.minecraft.spleef.command.SpleefCommand;
+import de.eaglefamily.minecraft.spleef.i18n.I18nModule;
 import de.eaglefamily.minecraft.spleef.listener.BlockBreakListener;
 import de.eaglefamily.minecraft.spleef.listener.EntityDamageListener;
 import de.eaglefamily.minecraft.spleef.listener.InventoryListener;
@@ -34,6 +35,7 @@ public class SpleefPlugin extends JavaPlugin implements Module {
   public void configure(Binder binder) {
     binder.bind(Plugin.class).toInstance(this);
     binder.bind(Configuration.class).toInstance(getConfig());
+    binder.install(new I18nModule());
   }
 
   @Override
