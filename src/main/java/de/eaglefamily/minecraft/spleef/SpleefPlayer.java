@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 
 public class SpleefPlayer {
 
+  public static final String DESTROYED_METAKEY = "destroyedBy";
+
   private final Player player;
 
   private SpleefPlayer(Player player) {

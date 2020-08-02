@@ -7,6 +7,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import de.eaglefamily.minecraft.spleef.command.SpleefCommand;
+import de.eaglefamily.minecraft.spleef.listener.BlockBreakListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerJoinListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerQuitListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerRespawnListener;
@@ -21,7 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SpleefPlugin extends JavaPlugin implements Module {
 
   private final List<Class<? extends Listener>> listeners = List.of(PlayerJoinListener.class,
-      PlayerQuitListener.class, PlayerRespawnListener.class);
+      PlayerQuitListener.class, PlayerRespawnListener.class, BlockBreakListener.class);
 
   private Injector injector;
 
@@ -37,6 +38,11 @@ public class SpleefPlugin extends JavaPlugin implements Module {
 
     registerListeners();
     registerCommands();
+  }
+
+  @Override
+  public void onDisable() {
+    injector.getInstance(BlockBreakListener.class).restoreBlocks();
   }
 
   private void registerListeners() {
