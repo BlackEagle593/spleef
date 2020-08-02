@@ -4,3 +4,7 @@ version: @VERSION@
 main: @GROUP@.@PACKAGE_NAME@.SpleefPlugin
 api-version: 1.16
 load: POSTWORLD
+
+commands:
+  spleef:
+    permission: "command.spleef"
