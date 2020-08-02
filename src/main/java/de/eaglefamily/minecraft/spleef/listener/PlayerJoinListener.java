@@ -23,6 +23,7 @@ public class PlayerJoinListener implements Listener {
     Player player = event.getPlayer();
     event.setJoinMessage("");
     SpleefPlayer spleefPlayer = spleefPlayerPool.addPlayer(player);
+    spleefPlayer.resetState();
     spleefPlayer.setupInventory();
     player.teleport(spawnpointPool.getRandomSpawnpoint());
   }
