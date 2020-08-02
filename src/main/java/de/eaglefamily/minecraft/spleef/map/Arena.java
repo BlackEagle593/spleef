@@ -5,6 +5,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import de.eaglefamily.minecraft.spleef.util.BukkitRxWorker;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.bukkit.Location;
@@ -19,12 +22,14 @@ public class Arena {
 
   private final Plugin plugin;
   private final Configuration config;
+  private final BukkitRxWorker bukkitRxWorker;
   private final List<Block> spleefableBlocks;
 
   @Inject
-  public Arena(Configuration config, Plugin plugin) {
+  public Arena(Configuration config, Plugin plugin, BukkitRxWorker bukkitRxWorker) {
     this.plugin = plugin;
     this.config = config;
+    this.bukkitRxWorker = bukkitRxWorker;
 
     List<Location> configSpleefBlocks = (List<Location>) config.getList(SPLEEFBLOCKS_CONFIG_KEY,
         Lists.newArrayList());
@@ -43,8 +48,10 @@ public class Arena {
   }
 
   public void addSpleefableBlocks(Location firstLocation, Location secondLocation) {
-    // TODO - execute async to prevent server lags when adding many blocks at once
-    extractBlocks(firstLocation, secondLocation).forEach(this::addSpleefableBlock);
+    Single.fromCallable(() -> extractBlocks(firstLocation, secondLocation))
+        .observeOn(Schedulers.computation())
+        .subscribeOn(bukkitRxWorker.getScheduler())
+        .subscribe(blocks -> blocks.forEach(this::addSpleefableBlock));
   }
 
   public void addSpleefableBlock(Block block) {
