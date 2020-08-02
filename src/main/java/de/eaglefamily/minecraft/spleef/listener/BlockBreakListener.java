@@ -18,6 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 @Singleton
 public class BlockBreakListener implements Listener {
+
   private static final long MAX_BLOCK_RESPAWN_DELAY_IN_SECONDS = 30;
   private static final long MIN_BLOCK_RESPAWN_DELAY_IN_SECONDS = 5;
 
@@ -32,6 +33,12 @@ public class BlockBreakListener implements Listener {
     this.arena = arena;
   }
 
+  /**
+   * Call the block break listener. It avoids breaking non spleefable blocks and respawns broken
+   * blocks after a certain delay.
+   *
+   * @param event the block break event
+   */
   @EventHandler
   public void onBlockBreak(BlockBreakEvent event) {
     Block block = event.getBlock();

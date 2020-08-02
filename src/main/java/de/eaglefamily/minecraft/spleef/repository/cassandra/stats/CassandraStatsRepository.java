@@ -22,6 +22,13 @@ public class CassandraStatsRepository implements SpleefStatsRepository {
   private final CassandraStatsQuery statsQuery;
   private final CassandraStatsAdapter statsAdapter;
 
+  /**
+   * Create an instance of cassandra stats repository.
+   *
+   * @param cassandraConnection the cassandra connection
+   * @param statsQuery          the stats query
+   * @param statsAdapter        the stats adapter
+   */
   @Inject
   public CassandraStatsRepository(CassandraConnection cassandraConnection,
       CassandraStatsQuery statsQuery, CassandraStatsAdapter statsAdapter) {

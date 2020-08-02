@@ -22,6 +22,15 @@ public class SpleefPlayerPool {
   private final BukkitRxWorker bukkitRxWorker;
   private final Map<Player, SpleefPlayer> spleefPlayerMap = Maps.newConcurrentMap();
 
+  /**
+   * Create an instance of spleef player pool.
+   *
+   * @param plugin                the plugin
+   * @param translator            the translator
+   * @param spleefItemFactory     the spleef item factory
+   * @param spleefStatsRepository the spleef stats repository
+   * @param bukkitRxWorker        the bukkit rx worker
+   */
   @Inject
   public SpleefPlayerPool(Plugin plugin, Translator translator, SpleefItemFactory spleefItemFactory,
       SpleefStatsRepository spleefStatsRepository, BukkitRxWorker bukkitRxWorker) {
@@ -36,6 +45,12 @@ public class SpleefPlayerPool {
     return spleefPlayerMap.get(player);
   }
 
+  /**
+   * Add a player to the pool.
+   *
+   * @param player the player to add
+   * @return the spleef player which was added
+   */
   public SpleefPlayer addPlayer(Player player) {
     checkNotNull(player);
     SpleefPlayer spleefPlayer = SpleefPlayer.create(player, plugin, translator, spleefItemFactory,
@@ -44,6 +59,12 @@ public class SpleefPlayerPool {
     return spleefPlayer;
   }
 
+  /**
+   * Remove a player from the pool.
+   *
+   * @param player the player to remove
+   * @return the spleef player which was removed
+   */
   public SpleefPlayer removePlayer(Player player) {
     checkNotNull(player);
     return spleefPlayerMap.remove(player);

@@ -19,6 +19,11 @@ public class PlayerRespawnListener implements Listener {
     this.spawnpointPool = spawnpointPool;
   }
 
+  /**
+   * Call the player respawn listener.
+   *
+   * @param event the player respawn event
+   */
   @EventHandler
   public void onPlayerRespawn(PlayerRespawnEvent event) {
     SpleefPlayer spleefPlayer = spleefPlayerPool.getSpleefPlayer(event.getPlayer());

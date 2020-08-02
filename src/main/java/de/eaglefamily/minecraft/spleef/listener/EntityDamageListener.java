@@ -8,6 +8,11 @@ public class EntityDamageListener implements Listener {
 
   private static final int FIRE_DAMAGE = 9;
 
+  /**
+   * Call the entity damage listener. It avoids any damaged except for lava damage.
+   *
+   * @param event the entity damage event
+   */
   @EventHandler
   public void onEntityDamage(EntityDamageEvent event) {
     if (event.getCause() != EntityDamageEvent.DamageCause.LAVA) {

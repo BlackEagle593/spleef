@@ -17,6 +17,14 @@ public class Stats {
     this.deaths = deaths;
   }
 
+  /**
+   * Create a stats object.
+   *
+   * @param uniqueId the uniqueId of the player
+   * @param kills    the kill count
+   * @param deaths   the death count
+   * @return the stats object
+   */
   public static Stats create(UUID uniqueId, int kills, int deaths) {
     checkNotNull(uniqueId);
     checkArgument(kills >= 0, "Kills cannot be less than zero");
@@ -28,6 +36,13 @@ public class Stats {
     return create(uniqueId, 0, 0);
   }
 
+  /**
+   * Create a stats object which combines and sums up the kills and deaths of the stats.
+   *
+   * @param stats1 the first stats
+   * @param stats2 the second stats
+   * @return the combined stats object
+   */
   public static Stats combined(Stats stats1, Stats stats2) {
     checkNotNull(stats1);
     checkNotNull(stats2);

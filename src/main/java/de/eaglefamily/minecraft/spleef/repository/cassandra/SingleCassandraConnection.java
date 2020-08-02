@@ -14,6 +14,9 @@ public class SingleCassandraConnection implements CassandraConnection {
 
   private final CqlSession cqlSession;
 
+  /**
+   * Create an instance of single cassandra connection.
+   */
   public SingleCassandraConnection() {
     ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader(CqlSession.class.getClassLoader());

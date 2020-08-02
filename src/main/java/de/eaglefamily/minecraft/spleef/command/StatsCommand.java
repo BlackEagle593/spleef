@@ -24,6 +24,14 @@ public class StatsCommand implements CommandExecutor {
   private final PlayerNameRepository nameRepository;
   private final BukkitRxWorker bukkitRxWorker;
 
+  /**
+   * Create an instance of stats command.
+   *
+   * @param translator       the translator
+   * @param spleefPlayerPool the spleef player pool
+   * @param nameRepository   the plyar name repository
+   * @param bukkitRxWorker   the bukkit rx worker
+   */
   @Inject
   public StatsCommand(Translator translator, SpleefPlayerPool spleefPlayerPool,
       PlayerNameRepository nameRepository, BukkitRxWorker bukkitRxWorker) {

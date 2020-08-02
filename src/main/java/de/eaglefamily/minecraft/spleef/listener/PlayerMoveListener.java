@@ -21,6 +21,11 @@ public class PlayerMoveListener implements Listener {
     this.plugin = plugin;
   }
 
+  /**
+   * Call the player move listener. It checks, if the player is falling through a spleefable block.
+   *
+   * @param event the player move event
+   */
   @EventHandler
   public void onPlayerMove(PlayerMoveEvent event) {
     if (event.getFrom().getBlockY() == event.getTo().getBlockY()) {

@@ -16,6 +16,12 @@ public class BukkitRxWorker extends Scheduler.Worker {
   private final BukkitScheduler bukkitScheduler = Bukkit.getScheduler();
   private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+  /**
+   * Create an instance of bukkit rx worker. It is responsible for synchronising tasks to the bukkit
+   * main thread.
+   *
+   * @param plugin the plugin
+   */
   @Inject
   public BukkitRxWorker(Plugin plugin) {
     this.plugin = plugin;

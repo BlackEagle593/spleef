@@ -16,6 +16,13 @@ public class PlayerQuitListener implements Listener {
   private final SpleefPlayerPool spleefPlayerPool;
   private final SpleefStatsRepository spleefStatsRepository;
 
+  /**
+   * Create an instance of player quit listener.
+   *
+   * @param translator            the translator
+   * @param spleefPlayerPool      the spleef player pool
+   * @param spleefStatsRepository the spleef stats repository
+   */
   @Inject
   public PlayerQuitListener(Translator translator, SpleefPlayerPool spleefPlayerPool,
       SpleefStatsRepository spleefStatsRepository) {
@@ -24,6 +31,11 @@ public class PlayerQuitListener implements Listener {
     this.spleefStatsRepository = spleefStatsRepository;
   }
 
+  /**
+   * Call the player quit listener.
+   *
+   * @param event the player quit event
+   */
   @EventHandler
   public void onPlayerQuit(PlayerQuitEvent event) {
     Player player = event.getPlayer();

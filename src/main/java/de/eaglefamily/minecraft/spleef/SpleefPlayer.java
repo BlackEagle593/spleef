@@ -51,6 +51,9 @@ public class SpleefPlayer {
         bukkitRxWorker);
   }
 
+  /**
+   * Reset the state of the player.
+   */
   public void resetState() {
     AttributeInstance maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
     player.setHealth(Objects.nonNull(maxHealth) ? maxHealth.getValue() : 20);
@@ -58,6 +61,9 @@ public class SpleefPlayer {
     player.removeMetadata(SPLEEFED_METAKEY, plugin);
   }
 
+  /**
+   * Setup the inventory of the player.
+   */
   public void setupInventory() {
     PlayerInventory inventory = player.getInventory();
     inventory.clear();
@@ -65,6 +71,9 @@ public class SpleefPlayer {
     inventory.setItem(0, shovel);
   }
 
+  /**
+   * Add a kill to the player.
+   */
   public void addKill() {
     int killstreak = player.getLevel() + 1;
     player.setLevel(killstreak);
@@ -75,10 +84,18 @@ public class SpleefPlayer {
     sessionStats.incrementKills();
   }
 
+  /**
+   * Add a death to the player.
+   */
   public void addDeath() {
     sessionStats.incrementDeaths();
   }
 
+  /**
+   * Get the total stats of the player. It sums up the global stats and the session stats.
+   *
+   * @return the single of stats
+   */
   public Single<Stats> getStats() {
     if (Objects.nonNull(globalStats)) {
       return Single.just(Stats.combined(sessionStats, globalStats));

@@ -22,6 +22,11 @@ public class PlayerDeathListener implements Listener {
     this.spleefPlayerPool = spleefPlayerPool;
   }
 
+  /**
+   * Call the player death listener. It detects if the player got spleefed or just died by himself.
+   *
+   * @param event the player death event
+   */
   @EventHandler
   public void onPlayerDeath(PlayerDeathEvent event) {
     event.setDeathMessage("");

@@ -22,6 +22,13 @@ public class CassandraPlayerNameRepository implements PlayerNameRepository {
   private final CassandraPlayerNameQuery playerNameQuery;
   private final CassandraPlayerNameAdapter playerNameAdapter;
 
+  /**
+   * Create an instance of cassandra player name repository.
+   *
+   * @param cassandraConnection the cassandra connection
+   * @param playerNameQuery     the player name query
+   * @param playerNameAdapter   the player name adapter
+   */
   @Inject
   public CassandraPlayerNameRepository(CassandraConnection cassandraConnection,
       CassandraPlayerNameQuery playerNameQuery, CassandraPlayerNameAdapter playerNameAdapter) {

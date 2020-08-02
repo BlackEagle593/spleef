@@ -21,6 +21,12 @@ public class SpawnpointPool {
   private final List<Location> spawnpoints;
   private final Random random = new Random();
 
+  /**
+   * Create an instance of spawnpoint pool.
+   *
+   * @param plugin the plugin
+   * @param config the config
+   */
   @Inject
   public SpawnpointPool(Plugin plugin, Configuration config) {
     this.plugin = plugin;
@@ -28,6 +34,11 @@ public class SpawnpointPool {
     spawnpoints = (List<Location>) config.getList(SPAWNPOINT_CONFIG_KEY, Lists.newArrayList());
   }
 
+  /**
+   * Get a random spawnpoint from the pool.
+   *
+   * @return a random spawnpoint
+   */
   public Location getRandomSpawnpoint() {
     checkSpawnpoints();
     int randomInt = random.nextInt(spawnpoints.size());
@@ -38,6 +49,11 @@ public class SpawnpointPool {
     checkState(!spawnpoints.isEmpty(), "No spawnpoints loaded! Further setup is required.");
   }
 
+  /**
+   * Add a spawnpoint to the pool.
+   *
+   * @param location the spawnpoint location
+   */
   public void addSpawnpoint(Location location) {
     if (spawnpoints.contains(location)) {
       return;

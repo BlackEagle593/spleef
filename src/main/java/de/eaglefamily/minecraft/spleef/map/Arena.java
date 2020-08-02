@@ -25,6 +25,13 @@ public class Arena {
   private final BukkitRxWorker bukkitRxWorker;
   private final List<Block> spleefableBlocks;
 
+  /**
+   * Create an instance of arena. The arena is responsible for the spleefable blocks.
+   *
+   * @param config         the config
+   * @param plugin         the plugin
+   * @param bukkitRxWorker the bukkit rx worker
+   */
   @Inject
   public Arena(Configuration config, Plugin plugin, BukkitRxWorker bukkitRxWorker) {
     this.plugin = plugin;
@@ -39,14 +46,32 @@ public class Arena {
         .collect(Collectors.toList());
   }
 
+  /**
+   * Check if the block is spleefable.
+   *
+   * @param block the block to check
+   * @return true if the block is spleefable
+   */
   public boolean isSpleefable(Block block) {
     return spleefableBlocks.contains(block);
   }
 
+  /**
+   * Gets the total count of spleefable blocks.
+   *
+   * @return the total count of spleefable blocks.
+   */
   public int getSpleefableBlockCount() {
     return spleefableBlocks.size();
   }
 
+  /**
+   * Add multiple blocks to the spleefable blocks in the range between the first and second
+   * location.
+   *
+   * @param firstLocation  the first location
+   * @param secondLocation the second location
+   */
   public void addSpleefableBlocks(Location firstLocation, Location secondLocation) {
     Single.fromCallable(() -> extractBlocks(firstLocation, secondLocation))
         .observeOn(Schedulers.computation())
@@ -54,6 +79,11 @@ public class Arena {
         .subscribe(blocks -> blocks.forEach(this::addSpleefableBlock));
   }
 
+  /**
+   * Add a block to the spleefable blocks.
+   *
+   * @param block the block
+   */
   public void addSpleefableBlock(Block block) {
     if (block.isEmpty() || spleefableBlocks.contains(block)) {
       return;

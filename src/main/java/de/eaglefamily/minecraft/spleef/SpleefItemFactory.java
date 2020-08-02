@@ -8,6 +8,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class SpleefItemFactory {
 
+  /**
+   * Create shovel to spleef snow.
+   *
+   * @return the itemstack of the shovel
+   */
   public ItemStack createShovel() {
     ItemStack item = new ItemStack(Material.IRON_SHOVEL);
     ItemMeta meta = item.getItemMeta();
