@@ -3,9 +3,11 @@ package de.eaglefamily.minecraft.spleef;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Maps;
+import com.google.inject.Singleton;
 import java.util.Map;
 import org.bukkit.entity.Player;
 
+@Singleton
 public class SpleefPlayerPool {
 
   private final Map<Player, SpleefPlayer> spleefPlayerMap = Maps.newConcurrentMap();
