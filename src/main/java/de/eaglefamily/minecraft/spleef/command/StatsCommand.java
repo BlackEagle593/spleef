@@ -21,24 +21,24 @@ public class StatsCommand implements CommandExecutor {
 
   private final Translator translator;
   private final SpleefPlayerPool spleefPlayerPool;
-  private final PlayerNameRepository nameRepository;
+  private final PlayerNameRepository playerNameRepository;
   private final BukkitRxWorker bukkitRxWorker;
 
   /**
    * Create an instance of stats command.
    *
-   * @param translator       the translator
-   * @param spleefPlayerPool the spleef player pool
-   * @param nameRepository   the plyar name repository
-   * @param bukkitRxWorker   the bukkit rx worker
+   * @param translator           the translator
+   * @param spleefPlayerPool     the spleef player pool
+   * @param playerNameRepository the plyar name repository
+   * @param bukkitRxWorker       the bukkit rx worker
    */
   @Inject
   public StatsCommand(Translator translator, SpleefPlayerPool spleefPlayerPool,
-      PlayerNameRepository nameRepository, BukkitRxWorker bukkitRxWorker) {
+      PlayerNameRepository playerNameRepository, BukkitRxWorker bukkitRxWorker) {
     this.translator = translator;
     this.bukkitRxWorker = bukkitRxWorker;
     this.spleefPlayerPool = spleefPlayerPool;
-    this.nameRepository = nameRepository;
+    this.playerNameRepository = playerNameRepository;
   }
 
   @Override
@@ -71,7 +71,7 @@ public class StatsCommand implements CommandExecutor {
     if (Objects.nonNull(statsPlayer)) {
       printStats(player, stats, statsPlayer.getName());
     } else {
-      nameRepository.getPlayerName(stats.getUniqueId())
+      playerNameRepository.getPlayerName(stats.getUniqueId())
           .subscribeOn(bukkitRxWorker.getScheduler())
           .subscribe(name -> printStats(player, stats, name.getName()));
     }
