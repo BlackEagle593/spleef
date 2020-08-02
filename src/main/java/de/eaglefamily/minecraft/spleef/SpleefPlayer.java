@@ -1,6 +1,10 @@
 package de.eaglefamily.minecraft.spleef;
 
 import de.eaglefamily.minecraft.spleef.i18n.Translator;
+import de.eaglefamily.minecraft.spleef.repository.SpleefStatsRepository;
+import de.eaglefamily.minecraft.spleef.repository.model.Stats;
+import de.eaglefamily.minecraft.spleef.util.BukkitRxWorker;
+import io.reactivex.rxjava3.core.Single;
 import java.util.List;
 import java.util.Objects;
 import org.bukkit.attribute.Attribute;
@@ -21,17 +25,30 @@ public class SpleefPlayer {
   private final Translator translator;
   private final SpleefItemFactory spleefItemFactory;
 
+  private final Stats sessionStats;
+  private Stats globalStats;
+  private final Single<Stats> statsLoaderTask;
+
   private SpleefPlayer(Player player, Plugin plugin, Translator translator,
-      SpleefItemFactory spleefItemFactory) {
+      SpleefItemFactory spleefItemFactory, SpleefStatsRepository spleefStatsRepository,
+      BukkitRxWorker bukkitRxWorker) {
     this.player = player;
     this.plugin = plugin;
     this.translator = translator;
     this.spleefItemFactory = spleefItemFactory;
+
+    sessionStats = Stats.empty(player.getUniqueId());
+    statsLoaderTask = spleefStatsRepository.getStats(player.getUniqueId())
+        .defaultIfEmpty(Stats.empty(player.getUniqueId()))
+        .subscribeOn(bukkitRxWorker.getScheduler());
+    statsLoaderTask.subscribe(stats -> globalStats = stats);
   }
 
   static SpleefPlayer create(Player player, Plugin plugin, Translator translator,
-      SpleefItemFactory spleefItemFactory) {
-    return new SpleefPlayer(player, plugin, translator, spleefItemFactory);
+      SpleefItemFactory spleefItemFactory, SpleefStatsRepository spleefStatsRepository,
+      BukkitRxWorker bukkitRxWorker) {
+    return new SpleefPlayer(player, plugin, translator, spleefItemFactory, spleefStatsRepository,
+        bukkitRxWorker);
   }
 
   public void resetState() {
@@ -55,10 +72,18 @@ public class SpleefPlayer {
       translator.broadcastMessage("killstreak", player.getName(), killstreak);
     }
 
-    // TODO - add kill to stats
+    sessionStats.incrementKills();
   }
 
   public void addDeath() {
-    // TODO - add death to stats
+    sessionStats.incrementDeaths();
+  }
+
+  public Single<Stats> getStats() {
+    if (Objects.nonNull(globalStats)) {
+      return Single.just(Stats.combined(sessionStats, globalStats));
+    }
+
+    return statsLoaderTask;
   }
 }

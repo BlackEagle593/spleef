@@ -18,7 +18,10 @@ import de.eaglefamily.minecraft.spleef.listener.PlayerMoveListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerQuitListener;
 import de.eaglefamily.minecraft.spleef.listener.PlayerRespawnListener;
 import de.eaglefamily.minecraft.spleef.map.SpawnpointPool;
+import de.eaglefamily.minecraft.spleef.repository.RepositoryModule;
+import de.eaglefamily.minecraft.spleef.repository.SpleefStatsRepository;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.Configuration;
@@ -42,6 +45,7 @@ public class SpleefPlugin extends JavaPlugin implements Module {
     binder.bind(Plugin.class).toInstance(this);
     binder.bind(Configuration.class).toInstance(getConfig());
     binder.install(new I18nModule());
+    binder.install(new RepositoryModule());
   }
 
   @Override
@@ -83,5 +87,10 @@ public class SpleefPlugin extends JavaPlugin implements Module {
 
   private void unloadPlayer(Player player) {
     SpleefPlayer spleefPlayer = injector.getInstance(SpleefPlayerPool.class).removePlayer(player);
+    SpleefStatsRepository spleefStatsRepository = injector.getInstance(SpleefStatsRepository.class);
+    spleefPlayer.getStats()
+        .timeout(10, TimeUnit.SECONDS)
+        .map(spleefStatsRepository::saveStats)
+        .blockingSubscribe();
   }
 }

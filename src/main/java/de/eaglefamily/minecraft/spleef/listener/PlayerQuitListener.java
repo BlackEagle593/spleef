@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import de.eaglefamily.minecraft.spleef.SpleefPlayer;
 import de.eaglefamily.minecraft.spleef.SpleefPlayerPool;
 import de.eaglefamily.minecraft.spleef.i18n.Translator;
+import de.eaglefamily.minecraft.spleef.repository.SpleefStatsRepository;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,11 +14,14 @@ public class PlayerQuitListener implements Listener {
 
   private final Translator translator;
   private final SpleefPlayerPool spleefPlayerPool;
+  private final SpleefStatsRepository spleefStatsRepository;
 
   @Inject
-  public PlayerQuitListener(Translator translator, SpleefPlayerPool spleefPlayerPool) {
+  public PlayerQuitListener(Translator translator, SpleefPlayerPool spleefPlayerPool,
+      SpleefStatsRepository spleefStatsRepository) {
     this.translator = translator;
     this.spleefPlayerPool = spleefPlayerPool;
+    this.spleefStatsRepository = spleefStatsRepository;
   }
 
   @EventHandler
@@ -31,6 +35,7 @@ public class PlayerQuitListener implements Listener {
     }
 
     SpleefPlayer spleefPlayer = spleefPlayerPool.removePlayer(player);
+    spleefPlayer.getStats().subscribe(stats -> spleefStatsRepository.saveStats(stats).subscribe());
 
     translator.broadcastMessage("playerquit", player.getName());
   }
