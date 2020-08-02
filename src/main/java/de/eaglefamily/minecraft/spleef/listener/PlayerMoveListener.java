@@ -1,5 +1,6 @@
 package de.eaglefamily.minecraft.spleef.listener;
 
+import com.google.inject.Inject;
 import de.eaglefamily.minecraft.spleef.SpleefPlayer;
 import java.util.Objects;
 import org.bukkit.block.Block;
@@ -15,6 +16,7 @@ public class PlayerMoveListener implements Listener {
 
   private final Plugin plugin;
 
+  @Inject
   public PlayerMoveListener(Plugin plugin) {
     this.plugin = plugin;
   }
